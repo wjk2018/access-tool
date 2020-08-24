@@ -13,8 +13,8 @@ import java.util.Objects;
 
 public class FormulaParse {
 
-    protected String openToken = "#{";
-    protected String closeToken = "}";
+    public String openToken = "@{";
+    public String closeToken = "}@";
 
     public  String parse(String text, Object obj) throws RuntimeException {
         if (!Objects.nonNull(text)) {

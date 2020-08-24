@@ -68,3 +68,22 @@ COMMENT ON COLUMN SYS_QUERY_CONFIG.PROJECT
 COMMENT ON COLUMN SYS_QUERY_CONFIG.HIDE
     IS
         '是否隐藏（不展示）';
+-------------------------------------------------------------------------------
+CREATE TABLE
+    SYS_CUBE_CONFIG
+(
+    PROJECT VARCHAR2(5) NOT NULL,
+    CUBE_ID VARCHAR2(30) NOT NULL,
+    CUBE_CONFIG VARCHAR2(4000),
+    CUBE_TYPE VARCHAR2(30) NOT NULL,
+    PRIMARY KEY (PROJECT, CUBE_ID)
+);
+COMMENT ON TABLE SYS_CUBE_CONFIG
+    IS
+        'cube配置表';
+COMMENT ON COLUMN SYS_CUBE_CONFIG.CUBE_CONFIG
+    IS
+        'cube的度量和维度信息，当type为table/chart时会有';
+COMMENT ON COLUMN SYS_CUBE_CONFIG.CUBE_TYPE
+    IS
+        'cube类型，char/table/text/temp';

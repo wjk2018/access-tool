@@ -42,4 +42,13 @@ public interface QueryMapper {
             "</foreach> " +
             "</script>")
     List<Data> queryData(@Param("list") List<QueryConfig> configs, @Param("param") Map<String, String> param);
+
+    @Select("select cube_id as \"cubeId\" from SYS_CUBE_CONFIG where PROJECT = #{project} and CUBE_TYPE = #{type}")
+    List<String> queryCube(Map<String, String> param);
+
+    @Select("select cube_id as \"cubeId\", CUBE_CONFIG \"cubeConfig\" from SYS_CUBE_CONFIG where PROJECT = #{project} and CUBE_TYPE = #{type}")
+    List<Map<String, Object>> queryCubeConfig(Map<String, String> param);
+
+    @Select("select ${exp} from dual")
+    String queryFromDual(@Param("exp") String exp, @Param("param") Map<String, String> param);
 }

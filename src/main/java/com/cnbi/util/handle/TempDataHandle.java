@@ -26,7 +26,7 @@ public class TempDataHandle extends DataHandle {
 
 
     @Override
-    public void compute(List<Data> datas, HashMap<String, TreeSet<Dict>> result, BigDecimal unit, Map<String, String> paramMap) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void compute(List<Data> datas, HashMap<String, Map<String, Object>> result, BigDecimal unit, Map<String, String> paramMap, Map<String, Object> cubeConfig) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Class<? extends HashMap> aClass = result.getClass();
         ConcurrentHashMap<String, Object> dataMap = new ConcurrentHashMap<>();
         ConcurrentHashMap<String, Byte> btl = new ConcurrentHashMap<>();

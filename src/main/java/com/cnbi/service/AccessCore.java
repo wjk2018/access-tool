@@ -3,6 +3,7 @@ package com.cnbi.service;
 import cn.hutool.core.convert.Convert;
 import com.cnbi.mapper.QueryMapper;
 import com.cnbi.util.MetaObjectUtil;
+import com.cnbi.util.Tool;
 import com.cnbi.util.calculate.ContextFormulaParse;
 import com.cnbi.util.calculate.ExpCalculateUtils;
 import com.cnbi.util.calculate.FormulaParse;
@@ -14,6 +15,7 @@ import com.cnbi.util.handle.TableDataHandle;
 import com.cnbi.util.handle.TempDataHandle;
 import com.cnbi.util.handle.TextDataHandle;
 import com.cnbi.util.period.PeriodUtil;
+import com.google.common.base.Joiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -54,11 +56,12 @@ public class AccessCore {
     ForkJoinPool forkJoinPool;
 
     public Object query(Map<String, String> param) throws Exception {
+        List<String> cubes = queryMapper.queryCube(param);
+        String cube = "'" + Joiner.on("','").join(cubes) + "'";
         //1','2','3
-        Object cube = param.get(ParamConstant.CUBEID);
         List<Data> datas = new ArrayList();
         if(Objects.nonNull(cube)){
-            List<QueryConfig> queryConfig = queryMapper.getQueryConfig(cube.toString());
+            List<QueryConfig> queryConfig = queryMapper.getQueryConfig(cube);
             ExpCalculateUtils expCalculateUtils = new ExpCalculateUtils();
             ContextFormulaParse formulaParse = new ContextFormulaParse();
             datas = forkJoinPool.submit(new ConfigTask(0, queryConfig.size(), queryConfig,
@@ -78,12 +81,14 @@ public class AccessCore {
         if(datas.isEmpty()){
             throw new RuntimeException("数据为空");
         }else{
+            List<Map<String, Object>> cubeConfigs = queryMapper.queryCubeConfig(param);
+            Map<String, Object> cubeConfig = Tool.list2Map(cubeConfigs, "cubeId", "cubeConfig");
             String cubeType = param.get(ParamConstant.CUBE_TYPE);
             DataHandle dataHandle = handleMap.get(cubeType);
             if(Objects.nonNull(dataHandle)){
-                return dataHandle.handle(datas, new BigDecimal(param.get(ParamConstant.UNIT)), forkJoinPool, param);
+                return dataHandle.handle(datas, new BigDecimal(param.get(ParamConstant.UNIT)), forkJoinPool, param, cubeConfig);
             }else {
-                throw new IllegalArgumentException("type参数非法, 应该为");
+                throw new IllegalArgumentException("type参数非法, 应该为chart/table/text/temp");
             }
 
         }
@@ -118,7 +123,7 @@ class ConfigTask extends RecursiveTask<List<Data>> {
         List<QueryConfig> result = new ArrayList<>();
         List<QueryConfig> expResult = new ArrayList<>();
         if(end - begin < ADJUST_VALUE){
-            for (QueryConfig r : items) {
+            for (QueryConfig r : items.subList(begin, end)) {
                 //处理期间，根据数据库的相对期间和当前期间算出数据的维度期间
                 r.setPeriod(PeriodUtil.calperiod(param.get(ParamConstant.PERIOD), r.getYear(), r.getMonth()));
                 //如果带公式，说明需要计算，移除后单独处理
@@ -156,7 +161,7 @@ class ConfigTask extends RecursiveTask<List<Data>> {
         }else{
             int middle = (begin + end)/2;
             ConfigTask leftTask = new ConfigTask(begin, middle, items, param, expCalculateUtils, formulaParse, queryMapper);
-            ConfigTask rightTask = new ConfigTask(middle + 1, end, items, param, expCalculateUtils, formulaParse, queryMapper);
+            ConfigTask rightTask = new ConfigTask(middle, end, items, param, expCalculateUtils, formulaParse, queryMapper);
             leftTask.fork();
             rightTask.fork();
             datas.addAll(leftTask.join());
