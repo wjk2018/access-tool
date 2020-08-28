@@ -32,10 +32,14 @@ public class ExpCalculateUtils {
         context.setVariable(key, value);
     }
 
-    public BigDecimal getExpVal(String exp) {
-        Double value = parser.parseExpression(exp).getValue(context, Double.class);
-        value = value.isNaN() || value.isInfinite() ? 0 : value;
-        return BigDecimal.valueOf(value);
+    public Object getExpVal(String exp) {
+        try {
+            Double value = parser.parseExpression(exp).getValue(context, Double.class);
+            value = value.isNaN() || value.isInfinite() ? 0 : value;
+            return BigDecimal.valueOf(value);
+        }catch (Exception e){
+            return exp;
+        }
     }
 
     public Object calculate(String exp){

@@ -117,5 +117,8 @@ public class QueryConfig {
      */
     private String unitConversion;
 
-
+    /**
+     *  Y表示查询结果作为其他查询的依赖
+     */
+    private String depend;
 }

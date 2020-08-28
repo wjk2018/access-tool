@@ -10,7 +10,6 @@ package com.cnbi.util.constant;
 public class ParamConstant {
 
     public final static String CUBEID = "cubeId";
-    public final static String COMPANY = "company";
     public final static String PERIOD = "period";
 
     public final static String TEXT_CUBE = "text";
@@ -22,6 +21,8 @@ public class ParamConstant {
     public final static String UNIT_CONVERSION = "Y";
 
     public final static String Y = "Y";
+
+    public final static String N = "N";
 
     public final static String UNIT = "unit";
     public final static String NO_GROUP = "no";

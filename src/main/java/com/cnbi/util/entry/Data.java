@@ -1,5 +1,6 @@
 package com.cnbi.util.entry;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
@@ -28,5 +29,10 @@ public class Data implements Serializable {
     private String subfield;
     private String unit;
     private String unitConversion;
+
+    @JsonIgnore
     private String hide;
+
+    @JsonIgnore
+    private String depend;
 }

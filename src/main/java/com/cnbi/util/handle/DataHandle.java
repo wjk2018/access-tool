@@ -24,9 +24,10 @@ import java.util.concurrent.ForkJoinPool;
 
 public abstract class DataHandle {
 
-    public final ConcurrentLinkedQueue<Exception> exceptions = new ConcurrentLinkedQueue<>();
 
-    public HashMap<String, Map<String, Object>> handle(List<Data> datas, BigDecimal unit, ForkJoinPool pool, Map<String, String> paramMap, Map<String, Object> cubeConfig) throws Exception {
+    public HashMap<String, Map<String, Object>> handle(List<Data> datas, BigDecimal unit, ForkJoinPool pool,
+                                                       Map<String, String> paramMap, Map<String, Object> cubeConfig,
+                                                       ConcurrentLinkedQueue<Exception> exceptions) throws Exception {
 
         HashMap<String, Map<String, Object>> result = pool.submit(new DataHandleTask(0, datas.size(), datas, unit, this, paramMap, exceptions, cubeConfig)).get();
         if(exceptions.isEmpty()){

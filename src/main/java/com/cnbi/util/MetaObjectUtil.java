@@ -36,4 +36,9 @@ public class MetaObjectUtil {
     public static void invokeMathod(Object obj, String methodName, Class[] valueType, Object[] value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         obj.getClass().getMethod(methodName, valueType).invoke(obj, value);
     }
+
+    public static Object getObjectValue(Object obj, String field) throws NoSuchFieldException {
+        long l = unsafe.objectFieldOffset(obj.getClass().getDeclaredField(field));
+        return unsafe.getObject(obj, l);
+    }
 }
