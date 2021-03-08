@@ -26,7 +26,7 @@ public class TextDataHandle extends DataHandle {
                 result.put(data.getCubeId(), cubeData);
             }
             Dict dataDict = Dict.create().set("sname", data.getDimName()).set("scode", data.getCode())
-                    .set(data.getKey(), getVal(data, unit, false)).set("sort", data.getSort());
+                    .set(data.getKey(), data.getVal()).set("sort", data.getSort());
             if(Objects.nonNull(data.getUnit())){
                 dataDict.set("unit", data.getUnit());
             }

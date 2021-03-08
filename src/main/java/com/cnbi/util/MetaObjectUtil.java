@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * @ClassName MetaObjectUtil
- * @Description
+ * @Description 反射相关工具类
  * @Author Wangjunkai
  * @Date 2020/5/25 11:51
  **/

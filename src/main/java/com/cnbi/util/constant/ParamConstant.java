@@ -12,6 +12,8 @@ public class ParamConstant {
     public final static String CUBEID = "cubeId";
     public final static String PERIOD = "period";
 
+    public final static String COM_NAME = "comName";
+
     public final static String TEXT_CUBE = "text";
     public final static String CHART_CUBE = "chart";
     public final static String TABLE_CUBE = "table";

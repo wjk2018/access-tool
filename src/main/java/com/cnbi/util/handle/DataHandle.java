@@ -3,6 +3,8 @@ package com.cnbi.util.handle;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.cnbi.util.calculate.DBFormulaParse;
 import com.cnbi.util.constant.ParamConstant;
 import com.cnbi.util.constant.ResultConstant;
@@ -45,27 +47,9 @@ public abstract class DataHandle {
         HashMap<String, Object> collect = new HashMap<>(2);
         collect.put(ResultConstant.DATA, new TreeSet<Dict>(Comparator.comparingInt(o -> o.getInt("sort"))));
         String parse = dbFormulaParse.parse(cubeConfigs.get(cubeId).toString(), paramMap);
-        collect.put(ResultConstant.CONFIG, parse);
+        Map map = JSONUtil.toBean(parse, Map.class);
+        collect.put(ResultConstant.CONFIG, map);
         return collect;
-    }
-
-    protected Object getVal(Data data, BigDecimal unit, boolean isTemp) {
-        if(Objects.equals(data.getUnitConversion(), ParamConstant.UNIT_CONVERSION)){
-            if(Objects.isNull(data.getVal())){
-                return BigDecimal.ZERO;
-            }else{
-                BigDecimal convert = Convert.convert(BigDecimal.class, data.getVal());
-                if(Objects.equals(data.getUnit(), ParamConstant.UNIT)){
-                    //结论性文字的单位由模板处理
-                    if(!isTemp) {
-                        return convert.divide(unit, 2, BigDecimal.ROUND_HALF_UP);
-                    }
-                }else{//结论性文字指标为%的，模板中除以了100
-                    return convert.multiply(BigDecimal.valueOf(100));
-                }
-            }
-        }
-        return Objects.isNull(data.getVal())?(Objects.isNull(data.getUnit())?"":BigDecimal.ZERO):data.getVal();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.cnbi.util.handle.task;
 
-import com.cnbi.util.MetaObjectUtil;
+import com.alibaba.ttl.TtlRecursiveTask;
 import com.cnbi.util.Tool;
 import com.cnbi.util.entry.Data;
 import com.cnbi.util.handle.DataHandle;
@@ -9,9 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.RecursiveTask;
 
 /**
  * @ClassName DataHandleTask
@@ -20,7 +18,7 @@ import java.util.concurrent.RecursiveTask;
  * @Date 2020/8/7 13:47
  **/
 
-public class DataHandleTask extends RecursiveTask<HashMap<String, Map<String, Object>>> {
+public class DataHandleTask extends TtlRecursiveTask<HashMap<String, Map<String, Object>>> {
 
     private final static String CAN_COMPUTE_FEILD = "cubeId";
 
@@ -30,7 +28,6 @@ public class DataHandleTask extends RecursiveTask<HashMap<String, Map<String, Ob
         this.end = end;
         this.dataHandle = dataHandle;
         this.datas = datas;
-        this.unit = unit;
         this.unit = unit;
         this.paramMap = paramMap;
         this.exceptions = exceptions;

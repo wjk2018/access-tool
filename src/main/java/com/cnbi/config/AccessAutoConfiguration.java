@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(MybatisAutoConfiguration.class)
 @AutoConfigureAfter(MybatisAutoConfiguration.class)
-@MapperScan(basePackages = "com.cnbi.Mapper", annotationClass = Mapper.class)
+@MapperScan(basePackages = "com.cnbi.mapper", annotationClass = Mapper.class)
 @ComponentScan("com.cnbi")
 public class AccessAutoConfiguration {
 

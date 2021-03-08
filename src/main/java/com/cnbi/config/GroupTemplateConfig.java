@@ -3,6 +3,7 @@ package com.cnbi.config;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.resource.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ public class GroupTemplateConfig {
 	 * @throws
 	 */
 	@Bean
+	@ConditionalOnMissingBean(GroupTemplate.class)
 	public GroupTemplate init() throws IOException{
 		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader(rootPath, "utf-8");
 		org.beetl.core.Configuration cfg = org.beetl.core.Configuration.defaultConfiguration();

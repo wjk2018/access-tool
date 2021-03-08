@@ -27,6 +27,6 @@ public class DBFormulaParse extends FormulaParse {
 
     @Autowired
     public void setQueryMapper(QueryMapper queryMapper){
-        this.queryMapper = queryMapper;
+        DBFormulaParse.queryMapper = queryMapper;
     }
 }

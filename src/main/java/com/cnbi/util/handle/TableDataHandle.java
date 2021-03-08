@@ -37,7 +37,7 @@ public class TableDataHandle extends DataHandle {
                     boolean flag = true;
                     for (Dict dict : dicts) {
                         if (dict.get("groupBy").equals(data.getGroupBy())){
-                            dict.set(data.getKey(), getVal(data, unit, false));
+                            dict.set(data.getKey(), data.getVal());
                             flag = false;
                         }
                     }
@@ -53,7 +53,7 @@ public class TableDataHandle extends DataHandle {
                     result.put(data.getCubeId(), cubeData);
                 }
                 Dict dataDict = Dict.create().set("sname", data.getDimName()).set("scode", data.getCode())
-                        .set(data.getKey(), getVal(data, unit, false)).set("sort", data.getSort());
+                        .set(data.getKey(), data.getVal()).set("sort", data.getSort());
                 if(Objects.nonNull(data.getUnit())){
                     dataDict.set("unit", data.getUnit());
                 }
@@ -68,7 +68,7 @@ public class TableDataHandle extends DataHandle {
 
     private void buildDataDict(BigDecimal unit, Data data, TreeSet<Dict> dicts) {
         Dict dataDict = Dict.create().set("sname", data.getDimName()).set("scode", data.getCode())
-                .set(data.getKey(), getVal(data, unit, false)).set("groupBy", data.getGroupBy())
+                .set(data.getKey(), data.getVal()).set("groupBy", data.getGroupBy())
                 .set("sort", data.getSort());
         if(Objects.nonNull(data.getUnit())){
             dataDict.set("unit", data.getUnit());

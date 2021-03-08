@@ -8,6 +8,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * @ClassName ExpCalculateUtils
@@ -35,7 +36,7 @@ public class ExpCalculateUtils {
     public Object getExpVal(String exp) {
         try {
             Double value = parser.parseExpression(exp).getValue(context, Double.class);
-            value = value.isNaN() || value.isInfinite() ? 0 : value;
+            value = value.isNaN()? 0 : (value.isInfinite() ? 1 : value);
             return BigDecimal.valueOf(value);
         }catch (Exception e){
             return exp;

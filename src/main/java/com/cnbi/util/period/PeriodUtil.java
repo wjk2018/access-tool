@@ -134,7 +134,7 @@ public class PeriodUtil {
 		}
 		int yearnum = Integer.parseInt(year);
 		int monthnum = Integer.parseInt(month);
-		PeriodConverter converter = new PeriodConverter(period.substring(0, 5), period.substring(5), "");
+		PeriodConverter converter = new PeriodConverter(period.substring(0, 4), period.substring(4), "");
 		converter.addYear(yearnum);
 		converter.addMonth(monthnum);
 		return converter.getPeriod("yyyyMM");
