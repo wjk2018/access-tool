@@ -1,89 +1,93 @@
 CREATE TABLE
     SYS_QUERY_CONFIG
-(
-    SCODE VARCHAR2(100) NOT NULL,
-    CUBE_ID VARCHAR2(30) NOT NULL,
-    STABLE VARCHAR2(30),
-    FACT_FIELD VARCHAR2(30),
-    SCONDITION VARCHAR2(1000),
-    EXP VARCHAR2(200),
-    SYEAR VARCHAR2(15),
-    SMONTH VARCHAR2(15),
-    SORTBY NUMBER(10) NOT NULL,
-    DIM_NAME VARCHAR2(200),
-    DIM_FIELD VARCHAR2(20),
-    GROUPBY VARCHAR2(100),
-    SKEY VARCHAR2(50),
-    SUBFIELD VARCHAR2(2),
-    ALLCONDITION VARCHAR2(2) DEFAULT 'N' NOT NULL,
-    SUNIT VARCHAR2(10),
-    UNITCONVERSION VARCHAR2(2) DEFAULT 'N',
-    PROJECT VARCHAR2(5),
-    ISDELETE VARCHAR2(30) DEFAULT 'N',
-    HIDE VARCHAR2(2) DEFAULT 'N',
-    PRIMARY KEY (CUBE_ID, SCODE, SORTBY)
-);
+    (
+        SCODE VARCHAR2(100) NOT NULL,
+        CUBE_ID VARCHAR2(30) NOT NULL,
+        STABLE VARCHAR2(30),
+        FACT_FIELD VARCHAR2(30),
+        SCONDITION VARCHAR2(1000),
+        EXP VARCHAR2(2000),
+        SYEAR VARCHAR2(15),
+        SMONTH VARCHAR2(15),
+        SORTBY NUMBER(10) NOT NULL,
+        DIM_NAME VARCHAR2(200),
+        DIM_FIELD VARCHAR2(40),
+        GROUPBY VARCHAR2(100) DEFAULT 'no',
+        SKEY VARCHAR2(50),
+        SUBFIELD VARCHAR2(2),
+        ALLCONDITION VARCHAR2(2) DEFAULT 'N' NOT NULL,
+        SUNIT VARCHAR2(10),
+        UNITCONVERSION VARCHAR2(2) DEFAULT 'N',
+        PROJECT VARCHAR2(5) NOT NULL,
+        ISDELETE VARCHAR2(30) DEFAULT 'N',
+        HIDE VARCHAR2(2) DEFAULT 'N',
+        DEPEND VARCHAR2(100) DEFAULT 'N',
+        PRIMARY KEY (PROJECT, CUBE_ID, SORTBY)
+    );
 COMMENT ON TABLE SYS_QUERY_CONFIG
-    IS
-        '查询配置表';
+IS
+    '查询配置表';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.SCODE
-    IS
-        '查询对应维度表的scode';
+IS
+    '查询对应维度表的scode';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.CUBE_ID
-    IS
-        '模型编码';
+IS
+    '模型编码';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.STABLE
-    IS
-        '查询的表名';
+IS
+    '查询的表名';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.FACT_FIELD
-    IS
-        '查询字段：fact_a fact_b等';
+IS
+    '查询字段：fact_a fact_b等';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.SCONDITION
-    IS
-        '其他查询条件，ALLCONDITION为Y时where后面直接使用SCONDITION的值';
+IS
+    '其他查询条件，ALLCONDITION为Y时where后面直接使用SCONDITION的值';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.EXP
-    IS
-        '表达式';
+IS
+    '表达式';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.SYEAR
-    IS
-        '查询年份范围(上年-100)';
+IS
+    '查询年份范围(上年-100)';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.SMONTH
-    IS
-        '查询月份范围（上月-1）';
+IS
+    '查询月份范围（上月-1）';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.SORTBY
-    IS
-        '排序字段';
+IS
+    '排序字段';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.DIM_NAME
-    IS
-        '维度名';
+IS
+    '维度名';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.GROUPBY
-    IS
-        '行转列依据';
+IS
+    '行转列依据';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.SKEY
-    IS
-        'value的key定义';
+IS
+    'value的key定义';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.PROJECT
-    IS
-        '所属模块';
+IS
+    '所属模块';
 COMMENT ON COLUMN SYS_QUERY_CONFIG.HIDE
-    IS
-        '是否隐藏（不展示）';
+IS
+    '是否隐藏（不展示）';
+COMMENT ON COLUMN SYS_QUERY_CONFIG.DEPEND
+IS
+    'Y表示查询结果作为其他查询的依赖';
 -------------------------------------------------------------------------------
 CREATE TABLE
     SYS_CUBE_CONFIG
-(
-    PROJECT VARCHAR2(5) NOT NULL,
-    CUBE_ID VARCHAR2(30) NOT NULL,
-    CUBE_CONFIG VARCHAR2(4000),
-    CUBE_TYPE VARCHAR2(30) NOT NULL,
-    PRIMARY KEY (PROJECT, CUBE_ID)
-);
+    (
+        PROJECT VARCHAR2(40) NOT NULL,
+        CUBE_ID VARCHAR2(30) NOT NULL,
+        CUBE_CONFIG VARCHAR2(4000),
+        CUBE_TYPE VARCHAR2(30) NOT NULL,
+        PRIMARY KEY (PROJECT, CUBE_ID)
+    );
 COMMENT ON TABLE SYS_CUBE_CONFIG
-    IS
-        'cube配置表';
+IS
+    'cube配置表';
 COMMENT ON COLUMN SYS_CUBE_CONFIG.CUBE_CONFIG
-    IS
-        'cube的度量和维度信息，当type为table/chart时会有';
+IS
+    'cube的度量和维度信息，当type为table/chart时会有';
 COMMENT ON COLUMN SYS_CUBE_CONFIG.CUBE_TYPE
-    IS
-        'cube类型，char/table/text/temp';
+IS
+    'cube类型，char/table/text/temp';
